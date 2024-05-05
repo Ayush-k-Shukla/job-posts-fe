@@ -34,7 +34,7 @@ export const JobCard = ({
       </div>
 
       <div className={styles.jd}>
-        <LimitedText text={jd ?? ''} limit={50} />
+        <LimitedText text={jd ?? ''} limit={100} />
       </div>
 
       <div className={styles.minExp}>

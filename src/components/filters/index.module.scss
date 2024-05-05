@@ -1,0 +1,11 @@
+.filterWrapper {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 5px;
+  flex-wrap: wrap;
+
+  .filter {
+    min-width: 200px;
+  }
+}

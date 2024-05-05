@@ -1,4 +1,6 @@
 import { JobCard } from '../components';
+import Filter from '../components/filters';
+import { getJobs } from '../datasource/remote';
 import styles from './index.module.scss';
 const jobsData = [
   {
@@ -94,10 +96,20 @@ const jobsData = [
 ];
 
 const Dashboard = () => {
+  const fn = async () => {
+    const d = await getJobs({
+      limit: 10,
+      offset: 0,
+    });
+  };
+  fn();
+
   return (
     <div className={styles.mainWrapper}>
       {/** Filters */}
-      <div>Filters</div>
+      <div>
+        <Filter />
+      </div>
 
       {/** Cards */}
       <div className={styles.jobs}>

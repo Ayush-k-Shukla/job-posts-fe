@@ -1,0 +1,13 @@
+.container {
+    width: 100%;
+    .inputContainer {
+        width: 100%;
+    }
+
+    .dropdownContainer {
+        height: 300px;
+        width: 100%;
+        overflow: auto;
+        outline: 1px solid;
+    }
+}
