@@ -1,0 +1,17 @@
+.modalWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+}
+
+.module {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+
+  .text {
+    color: #37546d;
+    font-size: 15px;
+  }
+}

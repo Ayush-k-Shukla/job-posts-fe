@@ -1,0 +1,35 @@
+.cardWrapper {
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px 0px !important;
+  padding: 10px 5px;
+  border-radius: 5px;
+  width: 360px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 5px;
+
+  .minExp {
+    font-size: 13px;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+    color: #8b8b8b;
+  }
+
+  .roleDetails {
+    h3 {
+      font-size: 15px;
+      color: #8b8b8b;
+    }
+
+    h2 {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .cardText {
+      font-size: 13px;
+      margin-top: 5px;
+    }
+  }
+}
