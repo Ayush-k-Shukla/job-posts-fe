@@ -6,11 +6,11 @@ import { JobCard } from '../job-card';
 import styles from './index.module.scss';
 
 const InfiniteScrollComponent = () => {
-  const dispatch = useAppDispatch();
-  const { jobs: items, status } = useAppSelector((state) => state.jobUseCase);
   const [currentPage, setCurrentPage] = useState(1);
   const observerRef = useRef(null);
 
+  const dispatch = useAppDispatch();
+  const { jobs: items, status } = useAppSelector((state) => state.jobUseCase);
   const { filter } = useAppSelector((state) => state.filterUseCase);
 
   // initial load
@@ -45,6 +45,7 @@ const InfiniteScrollComponent = () => {
     };
   }, [observerRef]);
 
+  // Filter data based on selection
   const getFilteredData = () => {
     let data = items;
 
@@ -84,29 +85,31 @@ const InfiniteScrollComponent = () => {
 
   return (
     <div className={styles.infiniteScroll}>
-      <div>
-        <div className={styles.jobs}>
-          {getFilteredData().length ? (
-            getFilteredData()?.map((job: IJob) => <JobCard {...job} />)
-          ) : (
-            <div className={styles.emptyState}>
-              {status === 'fullfilled' ? (
-                <p>
-                  No Data available for applied filters. Try changing filters.
-                </p>
-              ) : (
-                ''
-              )}
-            </div>
-          )}
-        </div>
+      {/* Jobs */}
+      <div className={styles.jobs}>
+        {getFilteredData().length ? (
+          getFilteredData()?.map((job: IJob) => <JobCard {...job} />)
+        ) : (
+          <div className={styles.emptyState}>
+            {status === 'fullfilled' ? (
+              <p>
+                No Data available for applied filters. Try changing filters.
+              </p>
+            ) : (
+              ''
+            )}
+          </div>
+        )}
       </div>
 
+      {/* Loader */}
       {status === 'pending' && (
         <div style={{ marginTop: '15px', marginBottom: '10px' }}>
           Loading...
         </div>
       )}
+
+      {/* Observer ref for infinite scroll */}
       <div ref={observerRef}></div>
     </div>
   );

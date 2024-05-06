@@ -17,11 +17,13 @@ export const JobCard = ({
   minJdSalary,
   salaryCurrencyCode,
 }: IJob) => {
+  // Opens link in new window
   const goToLink = (link?: string) => {
     if (!link) return;
     window.open(link, '_blank');
   };
 
+  // Combines salary for job
   const renderSalary = () => {
     let text = ``;
 
@@ -48,6 +50,7 @@ export const JobCard = ({
 
   return (
     <div key={jdUid} className={styles.cardWrapper}>
+      {/* Role and company Details */}
       <div className={styles.roleDetails}>
         <div className={styles.logo}>
           <img src={logoUrl} className={styles.logo} />
@@ -59,6 +62,7 @@ export const JobCard = ({
         </div>
       </div>
 
+      {/* Salary */}
       {(minJdSalary || maxJdSalary) && (
         <div className={styles.salary}>
           <p>Estimated Salary: </p>
@@ -66,15 +70,19 @@ export const JobCard = ({
         </div>
       )}
 
+      {/* Job Description */}
       <div className={styles.jd}>
         <p>Description :</p>
         <LimitedText text={jobDetailsFromCompany ?? ''} limit={300} />
       </div>
 
+      {/* Experience */}
       <div className={styles.minExp}>
         <p>Minimum Experience</p>
         <h3>{minExp} years</h3>
       </div>
+
+      {/* Apply link */}
       <div className={styles.applyLink}>
         <Button
           variant='contained'

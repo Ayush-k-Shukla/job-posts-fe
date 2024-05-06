@@ -1,4 +1,4 @@
-import { Autocomplete, Chip, SxProps, TextField } from '@mui/material';
+import { Autocomplete, Chip, TextField } from '@mui/material';
 import styles from './index.module.scss';
 
 export interface CustomInputChangeFuncInterface {
@@ -14,9 +14,6 @@ export interface DropdownPropTypes {
   selectedOption?: string;
   multi?: boolean;
   name: string;
-  chipColor?: string;
-  selectedStyle?: SxProps;
-  renderTextMessage?: string;
 }
 
 export interface CustomSearchableDropdownOptionType {
@@ -29,6 +26,28 @@ export interface customSearchableDropdownFetchDataPropsInterface {
   delay?: boolean;
 }
 
+/**
+ * Renders a custom searchable dropdown
+ *
+ * For MultiSelect
+ * -pass multi as true
+ * -pass selectedOptions as selected options
+ *
+ * For Single Select
+ * -pass multi as false
+ * -pass selectedOption as selected option
+ *
+ * @param {DropdownPropTypes} {
+ *   placeholder,
+ *   options,
+ *   handleSelectChange,
+ *   selectedOptions,
+ *   selectedOption,
+ *   multi = false,
+ *   name,
+ * }
+ * @return {*}
+ */
 function CustomSearchableDropdown({
   placeholder,
   options,
@@ -37,7 +56,6 @@ function CustomSearchableDropdown({
   selectedOption,
   multi = false,
   name,
-  selectedStyle,
 }: DropdownPropTypes) {
   const _onChange = (
     newValue:
@@ -78,7 +96,6 @@ function CustomSearchableDropdown({
     <div className={styles.container}>
       {multi ? (
         <Autocomplete
-          sx={selectedStyle}
           size='small'
           multiple
           options={options}
@@ -111,7 +128,6 @@ function CustomSearchableDropdown({
         />
       ) : (
         <Autocomplete
-          sx={selectedStyle}
           size='small'
           options={options}
           onChange={(e, newValue) => {

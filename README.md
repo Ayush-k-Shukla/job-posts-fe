@@ -1,12 +1,7 @@
 ## Running the project
 
-    ``$ npm install``
+`$ git clone https://github.com/Ayush-k-Shukla/job-posts-fe.git`
 
-    ``$ npm run dev``
+`$ npm install`
 
-Pending
-
-1. api integration as API failing
-2. infinite scroll
-3. redux setup for filters (if needed)
-4. handleing edge cases based on API data
+`$ npm run dev`

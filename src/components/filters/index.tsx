@@ -23,7 +23,7 @@ const Filter = () => {
   const { filter: filters } = useAppSelector((state) => state.filterUseCase);
   const dispatch = useAppDispatch();
 
-
+  // Change filter on redux store
   const changeFilters = ({
     name,
     value,

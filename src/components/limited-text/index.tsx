@@ -39,6 +39,8 @@ export const LimitedText = ({ text, limit }: IProps) => {
           Expand
         </Button>
       )}
+
+      {/* Modal for extra text */}
       <Modal open={openModal} onClose={toggleModal}>
         <Box
           sx={{

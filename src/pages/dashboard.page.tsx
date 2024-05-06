@@ -1,5 +1,4 @@
-import Filter from '../components/filters';
-import InfiniteScrollComponent from '../components/infinite-scroll';
+import { Filter, InfiniteScrollComponent } from '../components';
 import styles from './index.module.scss';
 
 const Dashboard = () => {
