@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
-import { filterReducer } from '../datasource/redux.slice';
+import { filterReducer } from '../datasource/filter.slice';
+import { jobsReducer } from '../datasource/job.slice';
 
 const reducers = combineReducers({
   filterUseCase: filterReducer,
+  jobUseCase: jobsReducer,
 });
 
 export const reduxStore = configureStore({

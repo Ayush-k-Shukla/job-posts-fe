@@ -26,21 +26,45 @@
     }
   }
 
+  .salary {
+    font-size: 15px;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+    margin-top: 3px;
+    display: flex;
+    gap: 10px;
+    color: #8b8b8b;
+  }
+
   .roleDetails {
-    h3 {
-      font-size: 15px;
-      color: #8b8b8b;
+    display: flex;
+    gap: 10px;
+
+    .logo {
+      width: 50px;
+      height: 50px;
     }
 
-    h2 {
-      font-size: 16px;
-      line-height: 1.5;
-      font-weight: 300;
-    }
+    .textData {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
 
-    .cardText {
-      font-size: 13px;
-      margin-top: 5px;
+      h3 {
+        font-size: 15px;
+        color: #8b8b8b;
+      }
+
+      h2 {
+        font-size: 16px;
+        line-height: 1.5;
+        font-weight: 300;
+      }
+
+      .cardText {
+        font-size: 13px;
+        margin-top: 5px;
+      }
     }
   }
 

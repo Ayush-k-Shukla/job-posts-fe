@@ -1,13 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
-import { getJobs } from '../../datasource/remote';
+import { useAppDispatch, useAppSelector } from '../../core/hook';
+import { fetchJobs } from '../../datasource/job.slice';
+import { IJob } from '../../datasource/remote';
 import { JobCard } from '../job-card';
 import styles from './index.module.scss';
 
 const InfiniteScrollComponent = () => {
-  const [items, setItems] = useState([]);
+  const dispatch = useAppDispatch();
+  const { jobs: items, status } = useAppSelector((state) => state.jobUseCase);
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(false);
   const observerRef = useRef(null);
+
+  const { filter } = useAppSelector((state) => state.filterUseCase);
 
   // initial load
   useEffect(() => {
@@ -15,17 +19,7 @@ const InfiniteScrollComponent = () => {
   }, [currentPage]);
 
   const fetchData = async () => {
-    setLoading(true);
-    try {
-      const response = await getJobs({
-        limit: 10,
-        offset: (currentPage - 1) * 10,
-      });
-      setItems((prevItems) => [...prevItems, ...response]);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-    }
+    dispatch(fetchJobs({ limit: 10, offset: (currentPage - 1) * 10 }));
   };
 
   const handleObserver = (entries) => {
@@ -51,24 +45,68 @@ const InfiniteScrollComponent = () => {
     };
   }, [observerRef]);
 
+  const getFilteredData = () => {
+    let data = items;
+
+    // Company name
+    if (filter && filter.company) {
+      data = data.filter((d) =>
+        d.companyName?.toLowerCase()?.includes(filter?.company?.toLowerCase())
+      );
+    }
+
+    // Minimum pay
+    if (filter && filter.minPay) {
+      data = data.filter(
+        (d) => d.minJdSalary && d.minJdSalary >= Number(filter.minPay)
+      );
+    }
+
+    // Minimum exp
+    if (filter && filter.minExp) {
+      data = data.filter((d) => d.minExp && d.minExp >= Number(filter.minExp));
+    }
+
+    // Role
+    if (filter && filter.roles && filter.roles.length > 0) {
+      data = data.filter((d) => d.jobRole && filter.roles?.includes(d.jobRole));
+    }
+
+    // location
+    if (filter && filter.location && filter.location.length > 0) {
+      data = data.filter(
+        (d) => d.location && filter.location?.includes(d.location)
+      );
+    }
+
+    return data ?? [];
+  };
+
   return (
     <div className={styles.infiniteScroll}>
       <div>
         <div className={styles.jobs}>
-          {items?.map((job: any, index) => (
-            <JobCard
-              applyLink={job?.applyLink}
-              company={job?.company}
-              experienceRequired={job?.experienceRequired}
-              id={job?.id}
-              jd={job?.jd}
-              jobTitle={job?.jobTitle}
-              location={job?.location}
-            />
-          ))}
+          {getFilteredData().length ? (
+            getFilteredData()?.map((job: IJob) => <JobCard {...job} />)
+          ) : (
+            <div className={styles.emptyState}>
+              {status === 'fullfilled' ? (
+                <p>
+                  No Data available for applied filters. Try changing filters.
+                </p>
+              ) : (
+                ''
+              )}
+            </div>
+          )}
         </div>
       </div>
-      {loading && <div style={{ marginTop: '5px' }}> Loading...</div>}
+
+      {status === 'pending' && (
+        <div style={{ marginTop: '15px', marginBottom: '10px' }}>
+          Loading...
+        </div>
+      )}
       <div ref={observerRef}></div>
     </div>
   );

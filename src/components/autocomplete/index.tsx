@@ -127,14 +127,6 @@ function CustomSearchableDropdown({
           renderInput={(params) => (
             <TextField {...params} label={placeholder} />
           )}
-          renderTags={(values, getTagProps) => {
-            return values.map((value, index) => (
-              <Chip
-                label={getLabelByValue(value.value)}
-                {...getTagProps({ index })}
-              />
-            ));
-          }}
         />
       )}
     </div>

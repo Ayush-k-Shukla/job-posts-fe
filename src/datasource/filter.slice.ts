@@ -7,12 +7,8 @@ export interface FilterState {
 }
 
 const initialFilterState: IFilter = {
-  techStack: [],
-  minExp: '',
-  numOfEmp: [],
   company: '',
   location: [],
-  minPay: '',
   roles: [],
 };
 

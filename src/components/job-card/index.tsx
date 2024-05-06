@@ -1,46 +1,79 @@
 import { Button } from '@mui/material';
+import { IJob } from '../../datasource/remote';
 import LimitedText from '../limited-text';
 import styles from './index.module.scss';
 
-interface IProps {
-  company?: string;
-  jobTitle?: string;
-  location?: string;
-  jd?: string;
-  applyLink?: string;
-  experienceRequired?: string;
-  id?: string;
-}
-
 export const JobCard = ({
-  applyLink,
-  company,
-  jobTitle,
+  companyName,
+  jdLink,
+  jdUid,
+  jobDetailsFromCompany,
+  jobRole,
   location,
-  jd,
-  experienceRequired,
-  id,
-}: IProps) => {
+  logoUrl,
+  maxExp,
+  maxJdSalary,
+  minExp,
+  minJdSalary,
+  salaryCurrencyCode,
+}: IJob) => {
   const goToLink = (link?: string) => {
     if (!link) return;
     window.open(link, '_blank');
   };
+
+  const renderSalary = () => {
+    let text = ``;
+
+    if (minJdSalary || minJdSalary === 0) {
+      text += minJdSalary;
+    }
+
+    if (maxJdSalary || maxJdSalary === 0) {
+      if (text.length) {
+        text += ` - `;
+        text += maxJdSalary;
+      } else {
+        text += maxJdSalary;
+      }
+    }
+
+    if (text.length) {
+      text += ` LPA`;
+      text = `${salaryCurrencyCode} ${text}`;
+    }
+
+    return text;
+  };
+
   return (
-    <div key={id} className={styles.cardWrapper}>
+    <div key={jdUid} className={styles.cardWrapper}>
       <div className={styles.roleDetails}>
-        <h3>{company}</h3>
-        <h2>{jobTitle}</h2>
-        <p className={styles.cardText}>{location}</p>
+        <div className={styles.logo}>
+          <img src={logoUrl} className={styles.logo} />
+        </div>
+        <div className={styles.textData}>
+          <h3>{companyName}</h3>
+          <h2>{jobRole}</h2>
+          <p className={styles.cardText}>{location}</p>
+        </div>
       </div>
+
+      {(minJdSalary || maxJdSalary) && (
+        <div className={styles.salary}>
+          <p>Estimated Salary: </p>
+          <p>{renderSalary()}</p>
+        </div>
+      )}
 
       <div className={styles.jd}>
         <p>Description :</p>
-        <LimitedText text={jd ?? ''} limit={200} />
+        <LimitedText text={jobDetailsFromCompany ?? ''} limit={300} />
       </div>
 
       <div className={styles.minExp}>
         <p>Minimum Experience</p>
-        <h3>{experienceRequired}</h3>
+        <h3>{minExp} years</h3>
       </div>
       <div className={styles.applyLink}>
         <Button
@@ -52,7 +85,7 @@ export const JobCard = ({
             color: 'black',
           }}
           onClick={() => {
-            goToLink(applyLink);
+            goToLink(jdLink);
           }}
         >
           Easy Apply

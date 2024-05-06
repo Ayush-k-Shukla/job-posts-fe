@@ -1,72 +1,28 @@
 import { TextField } from '@mui/material';
+import {
+  basePayOptions,
+  experienceOptions,
+  getLocationFilterOptions,
+  getRolesFilterOptions,
+} from '../../core/helper';
 import { useAppDispatch, useAppSelector } from '../../core/hook';
-import { setFilter } from '../../datasource/redux.slice';
-import CustomSearchableDropdown, {
-  CustomSearchableDropdownOptionType,
-} from '../autocomplete';
+import { setFilter } from '../../datasource/filter.slice';
+import CustomSearchableDropdown from '../autocomplete';
 import styles from './index.module.scss';
 
-const techStackOptions: CustomSearchableDropdownOptionType[] = [
-  { value: 'react', label: 'React' },
-  { value: 'nodejs', label: 'Node.js' },
-  { value: 'expressjs', label: 'Express.js' },
-  { value: 'mongodb', label: 'MongoDB' },
-];
-
-const experienceOptions: CustomSearchableDropdownOptionType[] = [
-  { value: '1', label: '1' },
-  { value: '2', label: '2' },
-  { value: '3', label: '3' },
-  { value: '4', label: '4' },
-  { value: '5', label: '5' },
-  { value: '6', label: '6' },
-  { value: '7', label: '7' },
-  { value: '8', label: '8' },
-  { value: '9', label: '9' },
-  { value: '10', label: '10' },
-];
-
-const basePayOptions: CustomSearchableDropdownOptionType[] = [
-  { value: '0', label: '0L' },
-  { value: '10', label: '10L' },
-  { value: '20', label: '20L' },
-  { value: '30', label: '30L' },
-  { value: '40', label: '40L' },
-  { value: '50', label: '50L' },
-  { value: '60', label: '60L' },
-  { value: '70', label: '70L' },
-];
-
-const typeOptions: CustomSearchableDropdownOptionType[] = [
-  { value: 'Remote', label: 'Remote' },
-  { value: 'InOffice', label: 'In-Office' },
-  { value: 'Hybrid', label: 'Hybrid' },
-];
-
 export interface IFilter {
-  techStack?: string[];
   minExp?: string;
-  numOfEmp?: string[];
   company?: string;
   location?: string[];
   minPay?: string;
   roles?: string[];
 }
 
-const numberOfEmployeesOptions: CustomSearchableDropdownOptionType[] = [
-  { value: '1-10', label: '1-10' },
-  { value: '11-20', label: '11-20' },
-  { value: '21-50', label: '21-50' },
-  { value: '51-100', label: '51-100' },
-  { value: '101-200', label: '101-200' },
-  { value: '201-500', label: '201-500' },
-  { value: '500+', label: '500+' },
-];
-
 const Filter = () => {
+  const { jobs: items } = useAppSelector((state) => state.jobUseCase);
   const { filter: filters } = useAppSelector((state) => state.filterUseCase);
   const dispatch = useAppDispatch();
-  console.log(filters);
+
 
   const changeFilters = ({
     name,
@@ -90,32 +46,15 @@ const Filter = () => {
         <CustomSearchableDropdown
           handleSelectChange={(e) => {
             changeFilters({
-              name: 'numOfEmp',
+              name: 'roles',
               value: [...e.value],
             });
           }}
           multi
-          options={numberOfEmployeesOptions}
+          options={getRolesFilterOptions(items)}
           name='Role'
           placeholder='Role'
-          selectedOptions={filters?.numOfEmp}
-        />
-      </div>
-
-      {/* No of employee filter */}
-      <div className={styles.filter}>
-        <CustomSearchableDropdown
-          handleSelectChange={(e) => {
-            changeFilters({
-              name: 'numOfEmp',
-              value: [...e.value],
-            });
-          }}
-          multi
-          options={numberOfEmployeesOptions}
-          name='No Of Employees'
-          placeholder='No Of Employees'
-          selectedOptions={filters?.numOfEmp}
+          selectedOptions={filters?.roles}
         />
       </div>
 
@@ -130,7 +69,7 @@ const Filter = () => {
           }}
           options={experienceOptions}
           name='Experience'
-          placeholder='Experience'
+          placeholder='Min experience'
           selectedOption={filters?.minExp}
         />
       </div>
@@ -145,9 +84,9 @@ const Filter = () => {
             });
           }}
           multi
-          options={typeOptions}
-          name='Remote'
-          placeholder='Remote'
+          options={getLocationFilterOptions(items)}
+          name='Location'
+          placeholder='Location'
           selectedOptions={filters?.location}
         />
       </div>
@@ -162,26 +101,9 @@ const Filter = () => {
             });
           }}
           options={basePayOptions}
-          name='Min Base pay'
-          placeholder='Base pay'
+          name='Min pay'
+          placeholder='Minimum pay'
           selectedOption={filters?.minPay}
-        />
-      </div>
-
-      {/* Tech stack filter */}
-      <div className={styles.filter}>
-        <CustomSearchableDropdown
-          handleSelectChange={(e) => {
-            changeFilters({
-              name: 'techStack',
-              value: [...e.value],
-            });
-          }}
-          options={techStackOptions}
-          name='TechStack'
-          multi
-          placeholder='Tech Stack'
-          selectedOptions={filters?.techStack}
         />
       </div>
 
