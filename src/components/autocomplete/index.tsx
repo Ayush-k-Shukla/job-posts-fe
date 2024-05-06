@@ -98,6 +98,7 @@ function CustomSearchableDropdown({
         <Autocomplete
           size='small'
           multiple
+          filterSelectedOptions
           options={options}
           isOptionEqualToValue={(option, value) => {
             return option?.value === value?.value;
@@ -137,7 +138,7 @@ function CustomSearchableDropdown({
             return option.value === value.value;
           }}
           value={{
-            label: selectedOption ?? '',
+            label: getLabelByValue(selectedOption!) ?? '',
             value: selectedOption ?? '',
           }}
           renderInput={(params) => (
