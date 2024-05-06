@@ -3,6 +3,10 @@
   flex-direction: column;
   gap: 5px;
   align-items: center;
+
+  p {
+    font-weight: 300;
+  }
 }
 
 .module {
@@ -13,5 +17,6 @@
   .text {
     color: #37546d;
     font-size: 15px;
+    font-weight: 300;
   }
 }

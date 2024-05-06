@@ -8,12 +8,22 @@
   flex-direction: column;
   justify-content: space-between;
   gap: 5px;
+  transition: transform 0.3s ease;
 
   .minExp {
     font-size: 13px;
     letter-spacing: 1px;
     margin-bottom: 3px;
-    color: #8b8b8b;
+
+    p {
+      color: #8b8b8b;
+      font-weight: 500;
+    }
+
+    h3 {
+      font-size: 14px;
+      font-weight: 300;
+    }
   }
 
   .roleDetails {
@@ -25,11 +35,17 @@
     h2 {
       font-size: 16px;
       line-height: 1.5;
+      font-weight: 300;
     }
 
     .cardText {
       font-size: 13px;
       margin-top: 5px;
     }
+  }
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
 }

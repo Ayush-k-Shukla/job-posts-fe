@@ -34,18 +34,23 @@ export const JobCard = ({
       </div>
 
       <div className={styles.jd}>
-        <LimitedText text={jd ?? ''} limit={100} />
+        <p>Description :</p>
+        <LimitedText text={jd ?? ''} limit={200} />
       </div>
 
       <div className={styles.minExp}>
         <p>Minimum Experience</p>
-        <p>{experienceRequired} year</p>
+        <h3>{experienceRequired}</h3>
       </div>
       <div className={styles.applyLink}>
         <Button
           variant='contained'
           fullWidth
-          style={{ color: 'rgb(85, 239, 196)' }}
+          style={{
+            backgroundColor: 'rgb(85, 239, 196)',
+            textTransform: 'none',
+            color: 'black',
+          }}
           onClick={() => {
             goToLink(applyLink);
           }}

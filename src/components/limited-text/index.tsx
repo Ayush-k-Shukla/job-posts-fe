@@ -28,7 +28,13 @@ export const LimitedText = ({ text, limit }: IProps) => {
         <Button
           variant='text'
           onClick={toggleExpand}
-          style={{ textTransform: 'none' }}
+          style={{
+            textTransform: 'none',
+            opacity: '0.6',
+            marginTop: '-15px',
+            backgroundColor: 'white',
+            color: 'blue',
+          }}
         >
           Expand
         </Button>

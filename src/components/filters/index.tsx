@@ -1,5 +1,6 @@
 import { TextField } from '@mui/material';
-import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../core/hook';
+import { setFilter } from '../../datasource/redux.slice';
 import CustomSearchableDropdown, {
   CustomSearchableDropdownOptionType,
 } from '../autocomplete';
@@ -42,7 +43,7 @@ const typeOptions: CustomSearchableDropdownOptionType[] = [
   { value: 'Hybrid', label: 'Hybrid' },
 ];
 
-interface IFilter {
+export interface IFilter {
   techStack?: string[];
   minExp?: string;
   numOfEmp?: string[];
@@ -62,31 +63,35 @@ const numberOfEmployeesOptions: CustomSearchableDropdownOptionType[] = [
   { value: '500+', label: '500+' },
 ];
 
-const initialFilterState: IFilter = {
-  techStack: [],
-  minExp: '',
-  numOfEmp: [],
-  company: '',
-  location: [],
-  minPay: '',
-  roles: [],
-};
-
 const Filter = () => {
-  const [filters, setFilters] = useState<IFilter>(initialFilterState);
-
+  const { filter: filters } = useAppSelector((state) => state.filterUseCase);
+  const dispatch = useAppDispatch();
   console.log(filters);
 
-  const handleKeyPress = () => {};
+  const changeFilters = ({
+    name,
+    value,
+  }: {
+    name: string;
+    value: string | string[];
+  }) => {
+    dispatch(
+      setFilter({
+        ...filters,
+        [name]: value,
+      })
+    );
+  };
 
   return (
     <div className={styles.filterWrapper}>
+      {/* Roles filter */}
       <div className={styles.filter}>
         <CustomSearchableDropdown
           handleSelectChange={(e) => {
-            setFilters({
-              ...filters,
-              numOfEmp: [...e.value],
+            changeFilters({
+              name: 'numOfEmp',
+              value: [...e.value],
             });
           }}
           multi
@@ -97,12 +102,13 @@ const Filter = () => {
         />
       </div>
 
+      {/* No of employee filter */}
       <div className={styles.filter}>
         <CustomSearchableDropdown
           handleSelectChange={(e) => {
-            setFilters({
-              ...filters,
-              numOfEmp: [...e.value],
+            changeFilters({
+              name: 'numOfEmp',
+              value: [...e.value],
             });
           }}
           multi
@@ -113,12 +119,13 @@ const Filter = () => {
         />
       </div>
 
+      {/* minimum experience filter */}
       <div className={styles.filter}>
         <CustomSearchableDropdown
           handleSelectChange={(e) => {
-            setFilters({
-              ...filters,
-              minExp: e.value as string,
+            changeFilters({
+              name: 'minExp',
+              value: e.value as string,
             });
           }}
           options={experienceOptions}
@@ -128,12 +135,13 @@ const Filter = () => {
         />
       </div>
 
+      {/* Location filter */}
       <div className={styles.filter}>
         <CustomSearchableDropdown
           handleSelectChange={(e) => {
-            setFilters({
-              ...filters,
-              location: [...e.value],
+            changeFilters({
+              name: 'location',
+              value: [...e.value],
             });
           }}
           multi
@@ -144,12 +152,13 @@ const Filter = () => {
         />
       </div>
 
+      {/* Minimum pay filter */}
       <div className={styles.filter}>
         <CustomSearchableDropdown
           handleSelectChange={(e) => {
-            setFilters({
-              ...filters,
-              minPay: e.value as string,
+            changeFilters({
+              name: 'minPay',
+              value: e.value as string,
             });
           }}
           options={basePayOptions}
@@ -159,12 +168,13 @@ const Filter = () => {
         />
       </div>
 
+      {/* Tech stack filter */}
       <div className={styles.filter}>
         <CustomSearchableDropdown
           handleSelectChange={(e) => {
-            setFilters({
-              ...filters,
-              techStack: [...e.value],
+            changeFilters({
+              name: 'techStack',
+              value: [...e.value],
             });
           }}
           options={techStackOptions}
@@ -175,22 +185,22 @@ const Filter = () => {
         />
       </div>
 
+      {/* Company name text filter */}
       <div className={styles.filter}>
         <TextField
-          type={'text'}
+          type='text'
           name='Company'
           label='Company'
           size='small'
           value={filters?.company}
           onChange={(e) => {
-            setFilters({
-              ...filters,
-              company: e?.target.value,
+            changeFilters({
+              name: 'company',
+              value: e?.target.value,
             });
           }}
           fullWidth
           placeholder='Company'
-          onKeyPress={handleKeyPress}
         />
       </div>
     </div>
